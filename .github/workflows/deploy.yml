@@ -1,0 +1,24 @@
+name: deploy (reusable)
+on:
+  workflow_call:
+    inputs:
+      environment: { type: string, required: true }
+      role-arn:    { type: string, required: true }
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/show-context
+        with:
+          environment: ${{ inputs.environment }}
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ inputs.role-arn }}
+          aws-region: ap-south-1
+      - run: aws sts get-caller-identity --query Arn --output text
+      - run: echo "deploying build ${{ github.sha }} to ${{ inputs.environment }}"
