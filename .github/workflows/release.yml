@@ -12,4 +12,4 @@ jobs:
   prod:
     needs: dev
     uses: ./.github/workflows/deploy.yml
-    with: { environment: prod, role-arn: "arn:aws:iam::725224325250:role/pc21-deploy-dev" }
+    with: { environment: prod, role-arn: "arn:aws:iam::725224325250:role/pc21-deploy-prod" }
