@@ -1,0 +1,9 @@
+name: show-context
+description: Print what is being deployed where (a tiny composite action)
+inputs:
+  environment: { required: true }
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "repo=${{ github.repository }} commit=${{ github.sha }} env=${{ inputs.environment }} actor=${{ github.actor }}"
